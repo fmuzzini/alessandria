@@ -1,5 +1,6 @@
 import java.io.Serializable;
 
+
 /**
  * Classe astratta Libro.
  * <p>
@@ -20,8 +21,28 @@ public abstract class Libro implements Serializable {
 	private int	anno;
 	private int pagine;
 	
+	static final String campi[] = {"Titolo", "Autore", "Anno", "Pagine"};
 	
+	/**
+	 * Ritorna il numero di campi per
+	 * la visualizzazione della tabella.
+	 * 
+	 * @return Numero campi
+	 */
+	static public int getNumeroCampi(){
+		return campi.length;
+	}
 	
+	/**
+	 * Ritorna il nome del campo per
+	 * la visualizzazione della tabella
+	 * 
+	 * @param index Indice del campo
+	 * @return Nome del campo
+	 */
+	static public String getNomeCampo(int index){
+		return campi[index];
+	}
 	
 	/**
 	 * @param titolo	Titolo del libro
@@ -37,6 +58,7 @@ public abstract class Libro implements Serializable {
 		this.anno = anno;
 		this.pagine = pagine;
 	}
+	
 
 	/**
 	 * Ritorna il titolo del libro.
@@ -126,6 +148,37 @@ public abstract class Libro implements Serializable {
 	 */
 	public void setPagine(int pagine) {
 		this.pagine = pagine;
+	}
+	
+	/**
+	 * Cerca una corrispondenza tra i campi del
+	 * libro.
+	 * Se la trova ritorna il campo sotto
+	 * forma di indice altrimenti
+	 * ritorna -1
+	 * 
+	 * @param str Stringa da confrontare
+	 * @return Indice del campo in cui c'è la corrispondenza
+	 */
+	public int cerca(String str){
+		if(this.titolo.contains(str))
+			return 0;
+		if(this.autore.contains(str))
+			return 1;
+		
+		int n;
+		try{
+			n = Integer.parseInt(str);
+		} catch(NumberFormatException e){
+			return -1;
+		}
+		
+		if(this.anno == n)
+			return 2;
+		if(this.pagine == n)
+			return 3;
+		
+		return -1;
 	}
 	
 	/**
