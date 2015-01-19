@@ -21,28 +21,6 @@ public abstract class Libro implements Serializable {
 	private int	anno;
 	private int pagine;
 	
-	static final String campi[] = {"Titolo", "Autore", "Anno", "Pagine"};
-	
-	/**
-	 * Ritorna il numero di campi per
-	 * la visualizzazione della tabella.
-	 * 
-	 * @return Numero campi
-	 */
-	static public int getNumeroCampi(){
-		return campi.length;
-	}
-	
-	/**
-	 * Ritorna il nome del campo per
-	 * la visualizzazione della tabella
-	 * 
-	 * @param index Indice del campo
-	 * @return Nome del campo
-	 */
-	static public String getNomeCampo(int index){
-		return campi[index];
-	}
 	
 	/**
 	 * @param titolo	Titolo del libro
@@ -160,25 +138,27 @@ public abstract class Libro implements Serializable {
 	 * @param str Stringa da confrontare
 	 * @return Indice del campo in cui c'è la corrispondenza
 	 */
-	public int cerca(String str){
+	public RisRicercaLibro cerca(String str){
+		RisRicercaLibro res = new RisRicercaLibro();
+		
 		if(this.titolo.contains(str))
-			return 0;
+			res.setTitolo(true);
 		if(this.autore.contains(str))
-			return 1;
+			res.setAutore(true);
 		
 		int n;
 		try{
 			n = Integer.parseInt(str);
 		} catch(NumberFormatException e){
-			return -1;
+			return res;
 		}
 		
 		if(this.anno == n)
-			return 2;
+			res.setAnno(true);
 		if(this.pagine == n)
-			return 3;
+			res.setPagine(true);
 		
-		return -1;
+		return res;
 	}
 	
 	/**

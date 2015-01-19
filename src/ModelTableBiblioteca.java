@@ -1,10 +1,20 @@
 import javax.swing.table.AbstractTableModel;
 
-
+/**
+ * Classe Modello per la tabella.
+ * <p>
+ * Fornisce i metodi per prelevare i dati
+ * dalla biblioteca e mostrarli nella tabella
+ * 
+ * @author Filippo Muzzini
+ *
+ */
 public class ModelTableBiblioteca extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
 	private Biblioteca biblioteca;
+	
+	static final private String campi[] = {"Titolo", "Autore", "Anno", "Pagine", "File"};
 	
 	/**
 	 * @param biblioteca Biblioteca associata alla tebella
@@ -16,7 +26,12 @@ public class ModelTableBiblioteca extends AbstractTableModel {
 	
 	@Override
 	public int getColumnCount() {
-		return Libro.getNumeroCampi();
+		return campi.length;
+	}
+	
+	@Override
+	public String getColumnName(int col){
+		return campi[col];
 	}
 
 	@Override
@@ -36,10 +51,30 @@ public class ModelTableBiblioteca extends AbstractTableModel {
 			return libro.getAnno();
 		case 3:
 			return libro.getPagine();
+		case 4:
+			return libro.getFile();
 		default:
 			return null;
 		}
 		
+	}
+	
+	/**
+	 * Ritorna la biblioteca associata
+	 * @return Biblioteca
+	 */
+	public Biblioteca getBiblioteca(){
+		return this.biblioteca;
+	}
+	
+	/**
+	 * Setta la biblioteca da cui
+	 * attingere i dati
+	 * 
+	 * @param biblioteca Biblioteca
+	 */
+	public void setBiblioteca(Biblioteca biblioteca){
+		this.biblioteca = biblioteca;
 	}
 
 }

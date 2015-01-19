@@ -1,5 +1,5 @@
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
 
 
 
@@ -15,9 +15,13 @@ import java.util.Vector;
 public class Biblioteca implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Vector<Libro> libri;
+	private ArrayList<Libro> libri;
 	
 	//TODO mantenere la lista ordinata!!!!
+	
+	public Biblioteca(){
+		libri = new ArrayList<Libro>();
+	}
 	
 	/**
 	 * Ritorna il numero di libri della biblioteca.
@@ -58,24 +62,6 @@ public class Biblioteca implements Serializable {
 		return libri.get(index);
 	}
 	
-	/**
-	 * Cerca in ogni libro la stringa passata.
-	 * Memorizza i vari match in un vettore e lo restituisce
-	 * 
-	 * @param str Stringa da matchare
-	 * @return Vettore contanente i risultati
-	 */
-	public Vector<RisRicercaLibro> ricerca(String str){
-		Vector<RisRicercaLibro> res = new Vector<RisRicercaLibro>();
-		
-		for(int i=0; i<libri.size(); i++){
-			int campo = getLibro(i).cerca(str);
-			if(campo != -1)
-				res.add(new RisRicercaLibro(i, campo));
-		}
-		
-		return res;
-	}
 	//TODO stampa (può essere usata la stessa per tabella)
 	
 
