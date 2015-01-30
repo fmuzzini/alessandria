@@ -1,6 +1,8 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.swing.table.AbstractTableModel;
+
 
 
 /**
@@ -9,18 +11,37 @@ import java.util.ArrayList;
  * Contiene le informazioni dell'intera
  * biblioteca compreso l'insieme di libri.
  * 
- * @author filippo
+ * @author Filippo Muzzini
  *
  */
 public class Biblioteca implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private ArrayList<Libro> libri;
+	private static final long serialVersionUID = 2L;
 	
-	//TODO mantenere la lista ordinata!!!!
+	private transient ArrayList<AbstractTableModel> models;	
+	private ArrayList<Libro> libri;							
 	
+	/**
+	 * Crea una biblioteca vuota.
+	 */
 	public Biblioteca(){
 		libri = new ArrayList<Libro>();
+		models = new ArrayList<AbstractTableModel>();
+	}
+	
+	/**
+	 * Aggiunge un ascoltatore alla biblioteca.
+	 * <p>
+	 * Tale ascoltatore viene chiamato per ogni tipo
+	 * di modifica
+	 * 
+	 * @param listener Ascoltatore
+	 */
+	public void addChangeListener(AbstractTableModel listener){
+		if(models == null)
+			models = new ArrayList<AbstractTableModel>();
+		
+		this.models.add(listener);
 	}
 	
 	/**
@@ -37,7 +58,10 @@ public class Biblioteca implements Serializable {
 	 * @param libro	Libro da aggiungere
 	 */
 	public void aggiungiLibro(Libro libro){
+		int last = libri.size();
 		libri.add(libro);
+		for(AbstractTableModel l : models)
+			l.fireTableRowsInserted(last, last);
 	}
 	
 	/**
@@ -48,7 +72,11 @@ public class Biblioteca implements Serializable {
 	 * @return	Libro appena rimosso
 	 */
 	public Libro rimuoviLibro(int index){
-		return libri.remove(index);
+		Libro libro = libri.remove(index);
+		for(AbstractTableModel l : models)
+			l.fireTableRowsDeleted(index, index);
+		
+		return libro;
 	}
 	
 	/**
@@ -62,7 +90,8 @@ public class Biblioteca implements Serializable {
 		return libri.get(index);
 	}
 	
-	//TODO stampa (può essere usata la stessa per tabella)
-	
-
+	public void libroChange(int index){
+		for(AbstractTableModel l : models)
+			l.fireTableRowsUpdated(index, index);
+	}
 }

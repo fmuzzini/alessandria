@@ -1,20 +1,33 @@
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-
-public class PulsanteRimuovi extends PulsanteLaterale implements ActionListener {
+/**
+ * Pulsante per la rimozione dei libri
+ * 
+ * @author Filippo Muzzini
+ *
+ */
+public class PulsanteRimuovi extends PulsanteLaterale {
 	
 	private int libri[];
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Inizializza il pulsante
+	 * 
+	 * @param table Tabella
+	 */
 	public PulsanteRimuovi(TabellaBiblioteca table) {
 		super(table);
 		this.setText("Rimuovi");
 		this.addActionListener(this);
 	}
 
+	/**
+	 * Il pulsante è attivo solo se
+	 * sono selezionati dei libri
+	 */
 	@Override
 	public void libriSelezionati(int libri[]) {
 		if (libri.length == 0){
@@ -27,6 +40,10 @@ public class PulsanteRimuovi extends PulsanteLaterale implements ActionListener 
 
 	}
 
+	/**
+	 * Rimuove i libri selezionati
+	 * dalla biblioteca
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		Biblioteca biblio = this.getBiblioteca();
@@ -34,8 +51,6 @@ public class PulsanteRimuovi extends PulsanteLaterale implements ActionListener 
 		for (int i=0; i<libri.length; i++){
 			biblio.rimuoviLibro(libri[i]-i);
 		}
-		
-		((ModelTableBiblioteca) this.getTable().getModel()).fireTableDataChanged();
 		
 	}
 	

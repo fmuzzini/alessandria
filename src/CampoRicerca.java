@@ -24,6 +24,8 @@ public class CampoRicerca extends JTextField implements ActionListener, Document
 	private static final long serialVersionUID = 1L;
 	
 	/**
+	 * Crea il campo di ricerca e lo 
+	 * associa alla tabella su cui svolgere la ricerca.
 	 * 
 	 * @param table Tabella su cui svolgere la ricerca
 	 */
@@ -35,6 +37,10 @@ public class CampoRicerca extends JTextField implements ActionListener, Document
 		this.addActionListener(this);
 	}
 
+	/**
+	 * Se il testo è cambiato inizia una nuova 
+	 * ricerca altrimenti mostra il prossimo risultato.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {		
 		if (testoCambiato == true){
@@ -46,16 +52,25 @@ public class CampoRicerca extends JTextField implements ActionListener, Document
 			table.prossRis();
 	}
 
+	/**
+	 * Aggiorna lo stato di testoCambiato
+	 */
 	@Override
 	public void changedUpdate(DocumentEvent arg0) {
 		this.testoCambiato = true;		
 	}
 
+	/**
+	 * Aggiorna lo stato di testoCambiato
+	 */
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
 		this.testoCambiato = true;		
 	}
 
+	/**
+	 * Aggiorna lo stato di testo cambiato
+	 */
 	@Override
 	public void removeUpdate(DocumentEvent arg0) {
 		this.testoCambiato = true;		

@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -5,7 +6,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  * Classe che fornisce una rappresentazione
@@ -17,7 +19,7 @@ import javax.swing.event.TableModelEvent;
  * @author Filippo Muzzini
  *
  */
-public class TabellaBiblioteca extends JTable implements ListSelectionListener {
+public class TabellaBiblioteca extends JTable implements ListSelectionListener, Cloneable {
 	
 	private int iterRis;
 	private String strRic;
@@ -40,6 +42,8 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener {
 		this.getSelectionModel().addListSelectionListener(this);
 		
 		this.selezioneListener = new ArrayList<SelezioneListener>();
+		
+		this.aggiustaLarghezza();
 	}
 	
 	/**
@@ -135,13 +139,6 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener {
 			this.selezioneListener.get(i).libriSelezionati(libri);
 	}
 	
-	@Override
-	public void tableChanged(TableModelEvent e){
-		int iter = this.convertRowIndexToModel(this.iterRis);
-		super.tableChanged(e);
-		this.iterRis = this.convertRowIndexToView(iter);
-	}
-	
 	/**
 	 * Aggiunge un listener che viene chiamato
 	 * al variare della selezione
@@ -152,4 +149,51 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener {
 		this.selezioneListener.add(listener);
 	}
 
+	public void cambioBiblioteca(Biblioteca biblio) {
+		this.getModel().setBiblioteca(biblio);
+		
+		this.iterRis = 0;
+		this.aggiustaLarghezza();
+	}
+	
+	@Override
+	public ModelTableBiblioteca getModel(){
+		return (ModelTableBiblioteca) super.getModel();
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+	
+	/**
+	 * Setta le larghezze delle colonne affinche
+	 * siano visibili tutte le informazioni.
+	 * 
+	 */
+	public void aggiustaLarghezza() {
+		for (int column = 0; column < this.getColumnCount(); column++)
+		{
+		    TableColumn tableColumn = this.getColumnModel().getColumn(column);
+		    int preferredWidth = tableColumn.getMinWidth();
+		    int maxWidth = tableColumn.getMaxWidth();
+		 
+		    for (int row = 0; row < this.getRowCount(); row++)
+		    {
+		        TableCellRenderer cellRenderer = this.getCellRenderer(row, column);
+		        Component c = this.prepareRenderer(cellRenderer, row, column);
+		        int width = c.getPreferredSize().width + this.getIntercellSpacing().width;
+		        preferredWidth = Math.max(preferredWidth, width);
+		 
+		        if (preferredWidth >= maxWidth)
+		        {
+		            preferredWidth = maxWidth;
+		            break;
+		        }
+		    }
+		 
+		    tableColumn.setPreferredWidth(preferredWidth);
+		}		
+	}
+	
 }

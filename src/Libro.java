@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.Serializable;
 
 
@@ -12,24 +13,26 @@ import java.io.Serializable;
  * @author Filippo Muzzini
  *
  */
-public abstract class Libro implements Serializable {
+public class Libro implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String titolo;
 	private String autore;
-	private String file;
+	private File file;
 	private int	anno;
 	private int pagine;
 	
 	
 	/**
+	 * Inizializza il libro con i parametri passati
+	 * 
 	 * @param titolo	Titolo del libro
 	 * @param autore	Autore del libro
 	 * @param file		Percorso del file
 	 * @param anno		Anno del libro
 	 * @param pagine	Numero di pagine del libro
 	 */
-	public Libro(String titolo, String autore, String file, int anno, int pagine) {
+	public Libro(String titolo, String autore, File file, int anno, int pagine) {
 		this.titolo = titolo;
 		this.autore = autore;
 		this.file = file;
@@ -37,6 +40,16 @@ public abstract class Libro implements Serializable {
 		this.pagine = pagine;
 	}
 	
+	/**
+	 * Inizializza il libro con campi vuoti
+	 * tranne il campo file
+	 * 
+	 * @param file File
+	 */
+	public Libro(File file) {
+		this("", "", file, 0, 0);
+	}
+
 
 	/**
 	 * Ritorna il titolo del libro.
@@ -79,7 +92,7 @@ public abstract class Libro implements Serializable {
 	 * 
 	 * @return	Percorso del file
 	 */
-	public String getFile() {
+	public File getFile() {
 		return file;
 	}
 
@@ -88,7 +101,7 @@ public abstract class Libro implements Serializable {
 	 * 
 	 * @param file	Percorso del file
 	 */
-	public void setFile(String file) {
+	public void setFile(File file) {
 		this.file = file;
 	}
 
@@ -128,44 +141,4 @@ public abstract class Libro implements Serializable {
 		this.pagine = pagine;
 	}
 	
-	/**
-	 * Cerca una corrispondenza tra i campi del
-	 * libro.
-	 * Se la trova ritorna il campo sotto
-	 * forma di indice altrimenti
-	 * ritorna -1
-	 * 
-	 * @param str Stringa da confrontare
-	 * @return Indice del campo in cui c'è la corrispondenza
-	 */
-	public RisRicercaLibro cerca(String str){
-		RisRicercaLibro res = new RisRicercaLibro();
-		
-		if(this.titolo.contains(str))
-			res.setTitolo(true);
-		if(this.autore.contains(str))
-			res.setAutore(true);
-		
-		int n;
-		try{
-			n = Integer.parseInt(str);
-		} catch(NumberFormatException e){
-			return res;
-		}
-		
-		if(this.anno == n)
-			res.setAnno(true);
-		if(this.pagine == n)
-			res.setPagine(true);
-		
-		return res;
-	}
-	
-	/**
-	 * Metodo astratto che permette la lettura del libro.
-	 * <p>
-	 * Tale metodo è astratto poichè la sua implementazione
-	 * dipende dal formato del libro.
-	 */
-	public abstract void leggi();
 }

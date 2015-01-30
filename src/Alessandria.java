@@ -1,39 +1,36 @@
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-
-
-
+/**
+ * Classe principale.
+ * 
+ * Contiene costanti utili per l'esecuzione del programma.
+ * 
+ * 
+ * @author Filippo Muzzini
+ *
+ */
 public class Alessandria {
 
+	/**< Descrizione dei file di salvataggio */
+	public static final String desc = "Biblioteca Alessandria";	
+	
+	/**< Estensione dei file di salvataggio */
+	public static final String file = "ba";	
+	
+	/**< Elenco dei formati leggibili */
+	public static final String[] libriLeggibili = {"pdf", "epub"};	
+	
+
 	/**
+	 * Inizializza una biblioteca vuota
+	 * e l'interfaccia grafica.
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		Biblioteca a = new Biblioteca();
-		a.aggiungiLibro(new LibroProva("Uno studio in rosso", "Doyle", "..", 1880, 200));
-		a.aggiungiLibro(new LibroProva("aUno studio in rosso", "eDoyle", "..", 1887, 100));
-		a.aggiungiLibro(new LibroProva("..", "..","..", 0, 0));
-		
-		/*JFrame f = new JFrame();
-		JPanel frame = new JPanel();
-		f.add(frame);
-		
-		frame.setLayout(new BorderLayout());
-		
-		f.setJMenuBar(new BarraMenu());
-		frame.add(BorderLayout.CENTER, new PannelloCentrale(a));
-		frame.add(BorderLayout.SOUTH, new PannelloFooter(a));
-		
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.pack();
-		f.setVisible(true);*/
 		
 		Finestra finestra = new Finestra(a);
-		finestra.setVisible(true);
-		
+		finestra.setVisible(true);		
 	}
 
 }
