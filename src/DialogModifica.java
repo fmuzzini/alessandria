@@ -39,9 +39,8 @@ public class DialogModifica extends JDialog implements ActionListener {
 	 * @param comp Componente padre
 	 */
 	public DialogModifica(Libro libro, Component comp){
-		super(SwingUtilities.windowForComponent(comp), "Modifica Informazioni Libro", ModalityType.APPLICATION_MODAL);
+		super(SwingUtilities.windowForComponent(comp), "Informazioni per " + libro.getFile().getName(), ModalityType.APPLICATION_MODAL);
 		this.libro = libro;
-		this.setTitle(libro.getFile().getName());
 		
 		this.setLayout(new GridLayout(6,2,5,5));
 		

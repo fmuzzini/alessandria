@@ -19,6 +19,7 @@ public class BarraMenu extends JMenuBar {
 	public BarraMenu(TabellaBiblioteca table){
 		super();
 		this.add(new MenuFile(table));
+		this.add(new MenuAiuto());
 		
 	}
 

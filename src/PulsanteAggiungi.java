@@ -66,16 +66,8 @@ public class PulsanteAggiungi extends PulsanteLaterale {
 		
 		//Mostra un dialog per l'iserimento dei dati e aggiunge i libri
 		for (File f : file){
-			Libro libro;
-			
-			String ext = FiltroEstensioni.getEstensione(f);
-			if (ext.equals("PDF"))
-				libro = new LibroPdf(f);
-			else if (ext.equals("EPUB"))
-				libro = new LibroEpub(f);
-			else 
-				libro = new Libro(f);
-			
+			Libro libro = Utilities.istanzaLibro(f);
+						
 			JDialog mod = new DialogModifica(libro, this);
 			mod.setVisible(true);
 			this.getBiblioteca().aggiungiLibro(libro);
@@ -148,7 +140,7 @@ public class PulsanteAggiungi extends PulsanteLaterale {
 	private ArrayList<File> selezionaFile() {
 		Estensioni est = new Estensioni();
 		GruppoEstensioni g = new GruppoEstensioni("Libri Leggibili");
-		g.addEstensione(Alessandria.libriLeggibili);
+		g.addEstensione(Utilities.getAllEstLegg());
 		est.addGruppo(g);
 		est.setAltriFile(true);
 		

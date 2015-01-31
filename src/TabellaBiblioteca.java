@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.RowSorterEvent;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -24,10 +25,16 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener, 
 	private int iterRis;
 	private String strRic;
 	private ArrayList<SelezioneListener> selezioneListener;
+	
 
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Inizializza la tabella cercando di
+	 * settare la larghezza delle colonne
+	 * in modo da visualizzare tutti i dati
+	 * e inizializza i parametri per la ricerca.
+	 * 
 	 * @param dm Table Model
 	 */
 	public TabellaBiblioteca(ModelTableBiblioteca dm) {
@@ -35,7 +42,7 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener, 
 		
 		this.setAutoCreateRowSorter(true);
 		
-		this.iterRis = 0;
+		initRicerca();
 		this.strRic = "";
 		
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -63,23 +70,26 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener, 
 	 * @param str Chiave della ricerca
 	 */
 	public void ricerca(String str){
-		iterRis = 0;
+		initRicerca();
 		strRic = str.toUpperCase();
 		prossRis();
 	}
 	
+	
+
 	/**
 	 * Cerca e visualizza il risultato
 	 * successivo dell'ultima ricerca.
 	 */
-	public void prossRis(){		
+	public void prossRis(){			
 		int row = iterRis;
+		int righe = this.getRowCount();
 		int col;
 		boolean ris = false;
 		
 		togliSelezione();
 		
-		for (; row<this.getRowCount(); row++) {
+		for (; row < righe; row++) {
 			col = 0;
 			for (; col<this.getColumnCount(); col++){
 				if (this.getValueAt(row, col).toString().toUpperCase().contains(strRic)){
@@ -99,7 +109,7 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener, 
 			else
 				JOptionPane.showConfirmDialog(this, "Fine Risultati", "Ricerca Terminata", JOptionPane.CLOSED_OPTION);
 			
-			iterRis = 0;
+			initRicerca();
 			return;
 		}			
 		
@@ -121,7 +131,10 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener, 
 		this.getSelectionModel().setSelectionInterval(row, row);
 	}
 	
-	
+	/**
+	 * Notifica agli ascoltatori il cambio
+	 * di selezione.
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e){
 		super.valueChanged(e);
@@ -149,21 +162,17 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener, 
 		this.selezioneListener.add(listener);
 	}
 
+	/**
+	 * Cambia la biblioteca associata a questa
+	 * tabella
+	 * 
+	 * @param biblio Nuova Biblioteca
+	 */
 	public void cambioBiblioteca(Biblioteca biblio) {
 		this.getModel().setBiblioteca(biblio);
 		
-		this.iterRis = 0;
+		initRicerca();
 		this.aggiustaLarghezza();
-	}
-	
-	@Override
-	public ModelTableBiblioteca getModel(){
-		return (ModelTableBiblioteca) super.getModel();
-	}
-
-	@Override
-	public Object clone() throws CloneNotSupportedException{
-		return super.clone();
 	}
 	
 	/**
@@ -196,4 +205,31 @@ public class TabellaBiblioteca extends JTable implements ListSelectionListener, 
 		}		
 	}
 	
+	/**
+	 * Quando l'ordinamento cambia
+	 * la ricerca viene fatta ripartire
+	 * dalla prima riga
+	 */
+	@Override
+	public void sorterChanged(RowSorterEvent e){		
+		togliSelezione();
+		initRicerca();		
+	}
+	
+	@Override
+	public ModelTableBiblioteca getModel(){
+		return (ModelTableBiblioteca) super.getModel();
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+	
+	/**
+	 * Inizializza i parametri di ricerca
+	 */
+	private void initRicerca() {
+		iterRis = 0;
+	}
 }

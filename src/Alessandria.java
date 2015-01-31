@@ -10,14 +10,11 @@
  */
 public class Alessandria {
 
-	/**< Descrizione dei file di salvataggio */
+	/** Descrizione dei file di salvataggio */
 	public static final String desc = "Biblioteca Alessandria";	
 	
-	/**< Estensione dei file di salvataggio */
-	public static final String file = "ba";	
-	
-	/**< Elenco dei formati leggibili */
-	public static final String[] libriLeggibili = {"pdf", "epub"};	
+	/** Estensione dei file di salvataggio */
+	public static final String file = "ba";
 	
 
 	/**

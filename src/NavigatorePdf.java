@@ -67,7 +67,6 @@ public class NavigatorePdf {
 		if (index >= 0 && index < this.nodi.length)
 			this.attuale = index;
 		
-		System.out.println("index: " + index);
 		paginaCambiata();
 	}
 	

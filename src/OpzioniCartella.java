@@ -63,8 +63,9 @@ public class OpzioniCartella extends JDialog implements ItemListener, ActionList
 		JPanel dx = new JPanel();
 		dx.setLayout(new BoxLayout(dx, BoxLayout.Y_AXIS));
 		dx.add(new JLabel("Selezionare formati da utilizzare"));
-		for(int i=0; i<Alessandria.libriLeggibili.length; i++){
-			JCheckBox c = new JCheckBox(Alessandria.libriLeggibili[i]);
+		String[] legg = Utilities.getLeggibili();
+		for(int i=0; i<legg.length; i++){
+			JCheckBox c = new JCheckBox(legg[i]);
 			dx.add(c);
 			this.leggibili.add(c);
 		}
@@ -142,8 +143,10 @@ public class OpzioniCartella extends JDialog implements ItemListener, ActionList
 		
 		//Aggiunta formati selezionati
 		for(int i=0; i<this.leggibili.size(); i++)
-			if (this.leggibili.get(i).isSelected())
-				format.add(Alessandria.libriLeggibili[i]);
+			if (this.leggibili.get(i).isSelected()){
+				String formato = this.leggibili.get(i).getText();
+				format.addAll(Utilities.getEstensioni(formato));
+			}
 		
 		//Aggiunta formati supplementari
 		String regex = "[^A-Z\\d]";

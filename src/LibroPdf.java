@@ -1,4 +1,3 @@
-import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class LibroPdf extends LibroLeggibile {
 	private transient PDDocument doc;
 	private transient JPanel nav;
 	private transient NavigatorePdf navigator;
-	private transient JPanel vista;
+	private transient PannelloVistaPdf vista;
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,13 +53,9 @@ public class LibroPdf extends LibroLeggibile {
 		NavPdf navpdf = new NavPdf(this.navigator);
 		this.nav.add(new JScrollPane(navpdf));
 		
-		this.vista = new JPanel();
-		this.vista.setLayout(new GridLayout(1,1));
-		VistaPdf vistapdf = new VistaPdf(this.navigator);
-		JScrollPane scroll = new JScrollPane(vistapdf);
-		this.vista.add(scroll);
+		this.vista = new PannelloVistaPdf(this.navigator);
 		
-		this.navigator.addCambioPaginaListener(vistapdf);
+		this.navigator.addCambioPaginaListener(this.vista.getVista());
 		this.navigator.addCambioPaginaListener(navpdf);
 
 	}

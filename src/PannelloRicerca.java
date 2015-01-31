@@ -4,7 +4,7 @@ javax.swing.JPanel;
 /**
  * Pannello Ricerca
  * <p>
- * Contiene {@link CampoRicerca} e {@link PulsanteRicerca}
+ * Contiene {@link CampoRicerca} e {@link BottoneRicerca}
  * 
  * @author Filippo Muzzini
  *
