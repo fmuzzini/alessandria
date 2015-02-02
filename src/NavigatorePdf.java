@@ -64,10 +64,10 @@ public class NavigatorePdf {
 	 * @param index Pagina
 	 */
 	public void gotoPage(int index){
-		if (index >= 0 && index < this.nodi.length)
+		if (index >= 0 && index < this.nodi.length){
 			this.attuale = index;
-		
-		paginaCambiata();
+			paginaCambiata();
+		}
 	}
 	
 	/**

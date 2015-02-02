@@ -202,7 +202,7 @@ public class OpzioniCartella extends JDialog implements ItemListener, ActionList
 			}
 		}
 		
-		this.setVisible(false);
+		this.dispose();
 	}
 
 }

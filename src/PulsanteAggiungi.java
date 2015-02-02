@@ -4,7 +4,6 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -64,13 +63,26 @@ public class PulsanteAggiungi extends PulsanteLaterale {
 		if (file == null)
 			return;
 		
+		Biblioteca biblio = this.getBiblioteca();
+		
+		//Controlla se il file è gia presente e poi
 		//Mostra un dialog per l'iserimento dei dati e aggiunge i libri
 		for (File f : file){
-			Libro libro = Utilities.istanzaLibro(f);
-						
-			JDialog mod = new DialogModifica(libro, this);
+			if (biblio.controllaFile(f)){
+				JOptionPane.showMessageDialog(this, "Il file:\n" + f.getAbsolutePath() + 
+						"\nNon è stato aggiunto perchè già presente");
+				continue;
+			}
+				
+			Libro libro = Utilities.istanzaLibro(f);		
+			DialogModifica mod = new DialogModifica(libro, this);
 			mod.setVisible(true);
-			this.getBiblioteca().aggiungiLibro(libro);
+			
+			//Se premuto Annulla non si aggiungono i libri successivi
+			if (mod.getReturn() == DialogModifica.ANNULLA)
+				break;
+			
+			biblio.aggiungiLibro(libro);
 		}
 		
 	}

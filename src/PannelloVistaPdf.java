@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
-public class PannelloVistaPdf extends JPanel implements MouseListener, KeyListener {
+public class PannelloVistaPdf extends JPanel implements MouseListener, KeyListener, CambioPaginaListenerPdf {
 
 	private NavigatorePdf nav;
 	private VistaPdf vista;
@@ -32,10 +32,6 @@ public class PannelloVistaPdf extends JPanel implements MouseListener, KeyListen
 		this.setFocusable(true);
 		this.addMouseListener(this);
 		this.addKeyListener(this);
-	}
-	
-	public VistaPdf getVista(){
-		return this.vista;
 	}
 
 	@Override
@@ -63,6 +59,9 @@ public class PannelloVistaPdf extends JPanel implements MouseListener, KeyListen
 		
 	}
 
+	/**
+	 * Cambia la pagina se necessario
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
@@ -73,13 +72,9 @@ public class PannelloVistaPdf extends JPanel implements MouseListener, KeyListen
 		
 		if(key == KeyEvent.VK_LEFT && value <= min){
 			this.nav.previousPage();
-			this.scroll.getVerticalScrollBar().setValue(0);
-			this.scroll.getHorizontalScrollBar().setValue(0);
 		}
 		else if(key == KeyEvent.VK_RIGHT && value >= max){
 			this.nav.nextPage();
-			this.scroll.getVerticalScrollBar().setValue(0);
-			this.scroll.getHorizontalScrollBar().setValue(0);
 		}
 	}
 
@@ -91,6 +86,17 @@ public class PannelloVistaPdf extends JPanel implements MouseListener, KeyListen
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
+	}
+
+	/**
+	 * cambia la pagina e riposiziona lo scroll
+	 */
+	@Override
+	public void paginaCambiata(NodoPdf nodo) {
+		this.vista.paginaCambiata(nodo);
+		
+		this.scroll.getHorizontalScrollBar().setValue(0);
+		this.scroll.getVerticalScrollBar().setValue(0);
 	}
 		
 }

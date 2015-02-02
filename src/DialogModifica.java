@@ -22,6 +22,9 @@ import javax.swing.SwingUtilities;
  */
 public class DialogModifica extends JDialog implements ActionListener {
 
+	public static final int OK = 1;
+	public static final int ANNULLA = 0;
+	
 	private Libro libro;
 	private JTextField titolo;
 	private JTextField autore;
@@ -29,8 +32,10 @@ public class DialogModifica extends JDialog implements ActionListener {
 	private JSpinner pagine;
 	private JButton annulla;
 	private JButton ok;
+	private int status;
 	
 	private static final long serialVersionUID = 1L;
+	
 	
 	/**
 	 * Inizializza il Dialog.
@@ -77,6 +82,10 @@ public class DialogModifica extends JDialog implements ActionListener {
 		
 		this.pack();
 	}
+	
+	public int getReturn() {
+		return this.status;
+	}
 
 	/**
 	 * Se viene il premuto il tasto di conferma
@@ -103,10 +112,16 @@ public class DialogModifica extends JDialog implements ActionListener {
 			libro.setAutore(this.autore.getText());
 			libro.setAnno((Integer) this.anno.getValue());
 			libro.setPagine((Integer) this.pagine.getValue());
+			
+			this.status = DialogModifica.OK;
 		}
 		
-		this.dispose();
-	
+		if (e.getSource() == this.annulla)
+			this.status = DialogModifica.ANNULLA;
+		
+		this.dispose();	
 	}
+
+
 
 }

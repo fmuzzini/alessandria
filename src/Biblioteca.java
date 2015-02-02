@@ -1,5 +1,7 @@
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -19,7 +21,8 @@ public class Biblioteca implements Serializable {
 	private static final long serialVersionUID = 2L;
 	
 	private transient ArrayList<AbstractTableModel> models;	
-	private ArrayList<Libro> libri;							
+	private ArrayList<Libro> libri;
+	private HashSet<File> elencoFile;							
 	
 	/**
 	 * Crea una biblioteca vuota.
@@ -27,6 +30,7 @@ public class Biblioteca implements Serializable {
 	public Biblioteca(){
 		libri = new ArrayList<Libro>();
 		models = new ArrayList<AbstractTableModel>();
+		elencoFile = new HashSet<File>();
 	}
 	
 	/**
@@ -60,6 +64,7 @@ public class Biblioteca implements Serializable {
 	public void aggiungiLibro(Libro libro){
 		int last = libri.size();
 		libri.add(libro);
+		elencoFile.add(libro.getFile());
 		for(AbstractTableModel l : models)
 			l.fireTableRowsInserted(last, last);
 	}
@@ -90,8 +95,29 @@ public class Biblioteca implements Serializable {
 		return libri.get(index);
 	}
 	
+	/**
+	 * Chiamato quando un libro cambia
+	 * le sue informazioni
+	 * 
+	 * @param index Indice del libro
+	 */
 	public void libroChange(int index){
 		for(AbstractTableModel l : models)
 			l.fireTableRowsUpdated(index, index);
+	}
+
+	/**
+	 * Controlla se il file è già
+	 * presente o meno.
+	 * <p>
+	 * Viene usato un Hashset poichè
+	 * la ricerca scala meglio con
+	 * l'ingrandirsi della biblioteca
+	 * 
+	 * @param f File da controllare
+	 * @return risultato
+	 */
+	public boolean controllaFile(File f) {
+		return this.elencoFile.contains(f);
 	}
 }

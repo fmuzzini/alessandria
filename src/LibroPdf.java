@@ -55,7 +55,7 @@ public class LibroPdf extends LibroLeggibile {
 		
 		this.vista = new PannelloVistaPdf(this.navigator);
 		
-		this.navigator.addCambioPaginaListener(this.vista.getVista());
+		this.navigator.addCambioPaginaListener(this.vista);
 		this.navigator.addCambioPaginaListener(navpdf);
 
 	}
