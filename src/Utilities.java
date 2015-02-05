@@ -50,7 +50,7 @@ public class Utilities {
 		for(String f : formati)
 			est.addAll(getEstensioni(f));
 		
-		String[] ret = null;
+		String[] ret = new String[0];
 		ret = est.toArray(ret);
 		return ret;
 	}
